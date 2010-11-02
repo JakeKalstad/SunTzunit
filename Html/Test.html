@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <!-- Required CSS Sheet -->
+  <link rel="stylesheet" href="../CSS/Test.css" media="screen"/>
+  <!--____________________-->
+  
+  <!-- Required Scripts -->
+  <script type="text/javascript" src="../Dependancy/Jquery.js"></script>  
+  <script type="text/javascript" src="../Dependancy/js/jquery-ui-1.8.5.custom.min.js"></script>  
+  <script type="text/javascript" src="../JScript/TestCase.js"></script>
+  <script type="text/javascript" src="../JScript/Writer.js"></script>
+  <script type="text/javascript" src="../JScript/effect.js"></script>
+  <script type="text/javascript" src="../JScript/Sun.js"></script>
+  <!--__________________-->
+  
+  <div class="icon" id='icon'></div>
+
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+</head>
+<body>  
+  
+    <script type="text/javascript">
+      var Tzu = new Tzunit();    
+      Tzu.Actual(5).Expected(3).Test("NumberTest");    
+      Tzu.IsNull(null).Test("NullTest");    
+      Tzu.Assert(5,3).Test("AntiFluent");
+      
+      $(document).ready(function() {   
+        Tzu.RenderTests();
+      });   
+    </script>
+    <ul id="resultList" class="resultList">
+      <li id="resultText">
+          Test
+        </li>
+    </ul>
+    <!-- Div Required to insert test results -->
+    <ul id="TestCase">
+    </ul>
+    <!--_____________________________________-->
+    
+ </body>
+</html>
