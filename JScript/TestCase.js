@@ -1,11 +1,6 @@
  
-function TestCase(act, exp, name) {
-     this.Actual = act;
-     this.Expected = exp;
+function TestCase(name, message, evaluator) {
      this.Name = name;
-     this.Description = "";
+     this.Description = message;
+     this.Evaluation = evaluator;
 }    
-   
-    TestCase.prototype.Evaluate = function() {
-      return this.Actual == this.Expected;
-    }

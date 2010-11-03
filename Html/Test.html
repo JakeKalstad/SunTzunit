@@ -10,7 +10,6 @@
   
   <!-- Required Scripts -->
   <script type="text/javascript" src="../Dependancy/Jquery.js"></script>  
-  <script type="text/javascript" src="../Dependancy/js/jquery-ui-1.8.5.custom.min.js"></script>  
   <script type="text/javascript" src="../JScript/TestCase.js"></script>
   <script type="text/javascript" src="../JScript/Writer.js"></script>
   <script type="text/javascript" src="../JScript/effect.js"></script>
@@ -27,14 +26,37 @@
   
     <script type="text/javascript">
       var Tzu = new Tzunit();    
-      Tzu.Actual(5).Expected(3).Test("NumberTest");    
-      Tzu.IsNull(null).Test("NullTest");    
+      Tzu.Actual(5).Expected(3).Test("NumberTest"); 
+         
+      Tzu.IsNull(null).Test("NullTest");        
+      Tzu.IsNull("sd").Test("NullTest fail"); 
+        
+      Tzu.Contains("jake", "0").Test("Contains String?");
+      Tzu.Contains("jake", "ake").Test("Contains ake");
+      Tzu.Contains([1,53,2], 53).Test("Contains 53");
+      Tzu.Contains([1,53,2], 51).Test("Shouldnt Contain 51");
+      
+      Tzu.NotEqual("asdf", "fdsa").Test("String Not Equals");
+      Tzu.NotEqual(1, 1).Test("Number IS equal");
+      
+      Tzu.OfSameType(1, 1).Test("Number IS of same type");
+      Tzu.NotOfSameType(1, 's').Test("Number/Char not same");
+      
+      Tzu.NotNull(null).Test("Not Null (fail)");
+      Tzu.NotNull(1).Test("Not Null");
+      
+      Tzu.Assert([1,2,3], [1,2,3]).Test("Array Match");
+      Tzu.Assert([1,2,3], [2,2,4]).Test("Arrays Not Match");
       Tzu.Assert(5,3).Test("AntiFluent");
+      
+      Tzu.WithoutException(function () { fsaaf; }).Test("Fail Exception");
+      Tzu.WithoutException(function () { }).Test("Pass Exception");
       
       $(document).ready(function() {   
         Tzu.RenderTests();
       });   
     </script>
+    
     <ul id="resultList" class="resultList">
       <li id="resultText">
           Test
@@ -44,6 +66,5 @@
     <ul id="TestCase">
     </ul>
     <!--_____________________________________-->
-    
  </body>
 </html>
