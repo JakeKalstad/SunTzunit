@@ -8,13 +8,6 @@
   <link rel="stylesheet" href="../CSS/Test.css" media="screen"/>
   <!--____________________-->
   
-  <!-- Required Scripts -->
-  <script type="text/javascript" src="../Dependancy/Jquery.js"></script>  
-  <script type="text/javascript" src="../JScript/TestCase.js"></script>
-  <script type="text/javascript" src="../JScript/Writer.js"></script>
-  <script type="text/javascript" src="../JScript/effect.js"></script>
-  <script type="text/javascript" src="../JScript/Sun.js"></script>
-  <!--__________________-->
   
   <div class="icon" id='icon'></div>
 
@@ -24,8 +17,15 @@
 </head>
 <body>  
   
-    <script type="text/javascript">
-      var Tzu = new Tzunit();    
+    <!--_____________________________________-->
+  <!-- Required Scripts -->
+  <script type="text/javascript" src="../Dependancy/Jquery.js"></script>  
+  <script type="text/javascript" src="../JScript/TestCase.js"></script>
+  <script type="text/javascript" src="../JScript/Writer.js"></script>
+  <script type="text/javascript" src="../JScript/effect.js"></script>
+  <script type="text/javascript" src="../JScript/Sun.js"></script>
+  <!--__________________-->
+    <script type="text/javascript">      
       Tzu.Actual(5).Expected(3).Test("NumberTest"); 
          
       Tzu.IsNull(null).Test("NullTest");        
@@ -65,6 +65,5 @@
     <!-- Div Required to insert test results -->
     <ul id="TestCase">
     </ul>
-    <!--_____________________________________-->
  </body>
 </html>

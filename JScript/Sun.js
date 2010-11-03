@@ -122,3 +122,5 @@
    Tzunit.prototype.HandleFail = function(id) {
       this.writer.WriteFail(this.TestCases[id]);
    };
+   
+var Tzu = new Tzunit();    
