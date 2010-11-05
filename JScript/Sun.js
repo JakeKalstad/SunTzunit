@@ -110,8 +110,8 @@ var Tzu = (function() {
         for(var i=0; i < TestCases.length; i++) {
            if(TestCases[i].Evaluation()) { this.HandleSuccess(i);} 
            else { this.HandleFail(i); }
-         }       
-       new Effect(TestCases).Apply(TestCases.length - SuccessCount, Write.HeadText(SuccessCount, TestCases.length));
+         }      
+       Effect.Apply(TestCases, TestCases.length - SuccessCount, Write.HeadText(SuccessCount, TestCases.length));
     },
    
    HandleSuccess : function(id) {

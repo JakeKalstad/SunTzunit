@@ -1,5 +1,5 @@
 var Writer = (function () {
-   var caseNum = 1;   
+   var caseNum = 0;   
 return {
    WriteToTest : function (message, result) {
           $("<li id=" +caseNum +" class=testCase></li>").appendTo("#cases");
