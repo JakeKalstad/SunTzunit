@@ -1,24 +1,4 @@
-  function ContainsSubstring(col, item) {
-      if(col.indexOf(item) == -1) { return false; }      
-      return true;      
-  }
   
-  function ContainsElement(col, item) {
-      for(var i=0;i<col.length;i++){
-        if(col[i] == item) { return true; }
-      }
-      return false;
-  }
-    
-  function ArraysMatch(act, exp) {
-      if (act.length != exp.length) return function () { return false; };
-      else return function () {
-        for(var i=0;i<act.length;i++){
-          if(act[i] != exp[i]) { return false; } 
-        }
-        return true;
-      }
-  };
   
   function Tzunit() {
       this.TestCases = [];
@@ -51,8 +31,18 @@
     };
     
     Tzunit.prototype.Assert = function(act, exp) { 
-      if(typeof act.splice != 'undefined'){
-         this.Evaluation = ArraysMatch(act, exp);
+        
+            var arraysMatch = function (act, exp) {
+              if (act.length != exp.length) return function () { return false; };
+              else return function () {
+                 for(var i=0;i<act.length;i++)
+                 { if(act[i] != exp[i]) { return false; } 
+              }
+              return true;
+              }
+            }            
+      if(act[0] == 'undefined' && typeof act.splice != 'undefined'){
+         this.Evaluation = arraysMatch(act, exp);
          this.TestDescription = (this.Evaluation()) ? "Two Collections Match" : "Two Collections Do Not Match";
          return this;
       }
@@ -62,8 +52,19 @@
     };
     
     Tzunit.prototype.Contains = function(collection, item) {
-        if(typeof collection == 'string') this.Evaluation = function() { return ContainsSubstring(collection, item); }
-        if(typeof collection.splice != 'undefined') this.Evaluation = function() { return ContainsElement(collection, item); }    
+      
+              var containsSubstring = function (col, item) {
+                 if(col.indexOf(item) == -1) { return false; }      
+                 return true;      
+              };
+                            
+              var containsElement=function (col, item) {
+                 for(var i=0;i<col.length;i++)
+                  { if(col[i] == item) { return true; }  }
+                 return false;
+              }
+        if(typeof collection == 'string') this.Evaluation = function() { return containsSubstring(collection, item); }
+        if(typeof collection.splice != 'undefined') this.Evaluation = function() { return containsElement(collection, item); }    
         this.TestDescription = (this.Evaluation()) ? item + " was found" : item +" could not be found";
         return this;
     };

@@ -9,12 +9,6 @@ Filter.prototype.Apply = function(name, array){
   });
 }
 
-/* Icon Swap  */
-function Icon(result) {
-    var markUp = (result==0) ? '<img src="../Pass.png"/>' : '<img src="../Fail.png"/>';
-    $("#icon").html(markUp);
-};
-
 /*Effect*/
 function Effect(cases){
   this.TestCases = cases;
@@ -46,20 +40,26 @@ Effect.prototype.HideHoverTip = function() {
 }
 
 Effect.prototype.Apply = function(result, message) {
+      
+      var icon = function (result) {
+          var markUp = (result==0) ? '"../Pass.png"' : '"../Fail.png"';
+          $("#icon").html('<img src=' + markUp + '/>');
+      };
+      
   var ths = this;
   $(document).ready(function () {
     /* Hover Magic */
-   $("#resultText").html(message);
-   $("section").children().each(function() {
-     var caseId = $(this).attr('id')
-     $(this).hover(function() {  
-        ths.Id(caseId);      
-        ths.ShowHoverTip($(this).text());
-      }, 
-      function () {
-        ths.HideHoverTip(); 
-     });
+     $("#resultText").html(message);
+     $("section").children().each(function() {
+       var caseId = $(this).attr('id')
+       $(this).hover(function() {  
+          ths.Id(caseId);      
+          ths.ShowHoverTip($(this).text());
+        }, function () {
+          ths.HideHoverTip(); 
+       });
    });
-    Icon(result);   
+   
+    icon(result);   
  });
 }
