@@ -1,9 +1,7 @@
 var Tzu = (function() {  
-        var TestCases = [],
-            UnidentifiedTestId = 1,   
-            SuccessCount = 0,
+        var TestCases = new TestCaseList(),
+            UnidentifiedTestId = 1,    
             TestDescription = "",
-            Write = Writer,
             ExpectedValue = 0,
             ActualValue = 0,
             Evaluation = function(){};   
@@ -18,7 +16,17 @@ var Tzu = (function() {
              { if(col[i] == item) { return true; }  }
             return false;
         };
-              
+        
+      	var Test = function(name) {
+	      if(name == null || typeof name == 'undefined') { name = "Unidentified Test #" + UnidentifiedTestId++; }
+	      var desc = "";
+	      if(Evaluation == null || typeof Evaluation == 'undefined') {
+	        TestDescription = "Actual: "+ ActualValue + " <-> Expected: " + ExpectedValue;
+	        Evaluation = function () { return ActualValue == ExpectedValue; }; 
+	      }
+	      TestCases.Add(name, TestDescription, Evaluation);
+	    };   
+	    
         var arraysMatch = function (act, exp) {
              if (act.length != exp.length) { return function () { return false; }; }
              else { return function () {
@@ -28,30 +36,22 @@ var Tzu = (function() {
        }
      }
         
-  return {      
-    Actual : function(act) { 
-      ActualValue = act; 
-      return this; 
-    },
-    
-    Expected : function(exp) { 
-      ExpectedValue = exp; 
-      return this; 
-    },
-    
-    IsNull : function(act) { 
+  return {       
+    IsNull : function(act, name) { 
       Evaluation = function() { return act === null || act === 'undefined'; };
       TestDescription = Evaluation() ? "Object Was Null" : "Object Was Not Null";
+      Test(name);
       return this; 
     },
     
-     NotNull : function(act) { 
+     NotNull : function(act, name) { 
       Evaluation = function() { return act !== null && act !== 'undefined'; };
       TestDescription = Evaluation() ?  "Object Was Not Null" : "Object Was Null";
+      Test(name);
       return this; 
     },
     
-    Assert : function(act, exp) { 
+    Assert : function(act, exp, name) { 
       if(act[0] == 'undefined' && typeof act.splice != 'undefined') {
          Evaluation = arraysMatch(act, exp);
          TestDescription = (Evaluation()) ? "Two Collections Match" : "Two Collections Do Not Match";
@@ -59,68 +59,49 @@ var Tzu = (function() {
       }
       Evaluation = function() { return act == exp; };
       TestDescription = (Evaluation()) ? "Objects are equal" : "Objects are not equal";
+      Test(name);
       return this; 
     },
     
-    Contains : function(collection, item) {
+    Contains : function(collection, item, name) {
         if(typeof collection == 'string') { Evaluation = function() { return containsSubstring(collection, item); }; }
         if(typeof collection.splice != 'undefined') { Evaluation = function() { return containsElement(collection, item); }; } 
         TestDescription = (Evaluation()) ? item + " was found" : item +" could not be found";
+        Test(name);
         return this;
     },
     
-    NotEqual : function(act, expected) {
+    NotEqual : function(act, expected, name) {
       Evaluation = function() { return act != expected; };
       TestDescription = (Evaluation()) ? "Objects are not equal" : "Objects are equal";
+      Test(name);
       return this;   
     },
     
-    OfSameType : function(act, expected) {
+    OfSameType : function(act, expected, name) {
       Evaluation = function() { return typeof act == typeof expected; };
       TestDescription = (Evaluation()) ? "Objects are of same type" : "Objects are not of same type";
+      Test(name);
       return this;   
     },  
     
-    NotOfSameType : function(act, expected) {
+    NotOfSameType : function(act, expected, name) {
       Evaluation = function() { return typeof act != typeof expected; };
       TestDescription = (Evaluation()) ? "Objects are not of same type" : "Objects are of same type" ;
+      Test(name);
       return this;   
     },
    
-    WithoutException : function(func) {      
+    WithoutException : function(func, name) {      
       Evaluation = function() { try { func(); } catch(er) { return false; } return true; };
       TestDescription = (Evaluation()) ? "Function Executed Without a Hitch" : "Function Threw up an exception" ;
-      return this;   
+      Test(name);
+      return this;    
     },
     
-    /* Rendering / Handling */
-    
-    Test : function(name) {
-      if(name == null || typeof name == 'undefined') { name = "Unidentified Test #" + UnidentifiedTestId++; }
-      var desc = "";
-      if(Evaluation == null || typeof Evaluation == 'undefined') {
-        TestDescription = "Actual: "+ ActualValue + " <-> Expected: " + ExpectedValue;
-        Evaluation = function () { return ActualValue == ExpectedValue; }; 
-      }
-      TestCases.push(new TestCase(name, TestDescription, Evaluation));
+    /* Rendering / Handling */  
+    RenderTests : function() {    
+     Writer.Write(TestCases);
     },
-    
-    RenderTests : function() {      
-      Write.WriteDivs();
-        for(var i=0; i < TestCases.length; i++) {
-           if(TestCases[i].Evaluation()) { this.HandleSuccess(i);} 
-           else { this.HandleFail(i); }
-         }      
-       Effect.Apply(TestCases, TestCases.length - SuccessCount, Write.HeadText(SuccessCount, TestCases.length));
-    },
-   
-   HandleSuccess : function(id) {
-       SuccessCount++;
-       Write.WriteSuccess(TestCases[id]);
-   },
-   
-   HandleFail : function(id) {
-      Write.WriteFail(TestCases[id]);
-    }
   };
 })();
