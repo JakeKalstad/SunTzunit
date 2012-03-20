@@ -2,8 +2,8 @@ header,footer,
 article,section,
 hgroup,nav,
 
-body {
-  background-color: #1a82f7;
+body { 
+  background-color: rgb(205,193,197);
   background: -webkit-gradient(linear, right, left top, color-stop(0, rgb(0,0,0)), color-stop(0.44, rgb(255,255,255)));
   background: -moz-linear-gradient(right, rgb(0,0,0) 0%, rgb(255,255,255) 24%);
   list-style:none;
